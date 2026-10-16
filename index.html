@@ -3,343 +3,199 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DISC NEURAL MATRIX // 青少年科幻性格解析終端機</title>
+    <title>DISC 性格解析終端機 // 簡約版</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- html2canvas for Report Card Image Export -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-    <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    colors: {
-                        cyber: {
-                            dark: '#020617',
-                            card: '#070b19',
-                            border: '#1e293b',
-                            cyan: '#00f0ff',
-                            magenta: '#ff007f',
-                            purple: '#a855f7',
-                            neonGreen: '#00ff66'
-                        }
-                    }
-                }
-            }
-        }
-    </script>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800;900&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
         body {
-            font-family: 'Noto Sans TC', sans-serif;
-            background-color: #020617;
-            color: #f3f4f6;
-            overflow-x: hidden;
-        }
-        .font-orbitron {
-            font-family: 'Orbitron', sans-serif;
-        }
-        .neon-glow-cyan {
-            box-shadow: 0 0 25px rgba(0, 240, 255, 0.2), inset 0 0 15px rgba(0, 240, 255, 0.05);
-        }
-        .neon-glow-magenta {
-            box-shadow: 0 0 25px rgba(255, 0, 127, 0.2), inset 0 0 15px rgba(255, 0, 127, 0.05);
-        }
-        .neon-text-cyan {
-            text-shadow: 0 0 12px rgba(0, 240, 255, 0.8);
-        }
-        .neon-text-magenta {
-            text-shadow: 0 0 12px rgba(255, 0, 127, 0.8);
-        }
-        .cyber-grid-bg {
-            background-image: linear-gradient(to right, rgba(15, 23, 42, 0.8) 1px, transparent 1px),
-                              linear-gradient(to bottom, rgba(15, 23, 42, 0.8) 1px, transparent 1px);
-            background-size: 40px 40px;
-        }
-        .scanlines {
-            position: relative;
-        }
-        .scanlines::before {
-            content: " ";
-            display: block;
-            position: absolute;
-            top: 0; left: 0; bottom: 0; right: 0;
-            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%);
-            background-size: 100% 4px;
-            z-index: 30;
-            pointer-events: none;
-            opacity: 0.25;
+            font-family: 'Inter', 'Noto Sans TC', sans-serif;
+            background-color: #0f172a;
+            color: #e2e8f0;
         }
         input[type=number]::-webkit-inner-spin-button, 
         input[type=number]::-webkit-outer-spin-button { 
             -webkit-appearance: none; 
             margin: 0; 
         }
-        @keyframes scanLaser {
-            0% { transform: translateY(-100%); }
-            100% { transform: translateY(1000%); }
-        }
-        .scan-laser {
-            animation: scanLaser 2s linear infinite;
-        }
     </style>
 </head>
-<body class="cyber-grid-bg min-h-screen relative scanlines">
+<body class="min-h-screen flex flex-col justify-between">
 
-    <!-- Cyberpunk Header HUD -->
-    <header class="border-b border-cyber-border bg-cyber-dark/95 backdrop-blur-xl sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto px-4 py-3 flex flex-col sm:flex-row items-center justify-between">
-            <div class="flex items-center space-x-3 mb-2 sm:mb-0">
-                <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-cyber-cyan to-cyber-magenta flex items-center justify-center font-orbitron font-black text-slate-950 text-xl shadow-[0_0_20px_#00f0ff]">
+    <!-- Minimal Header -->
+    <header class="border-b border-slate-800 bg-slate-900/80 backdrop-blur sticky top-0 z-50">
+        <div class="max-w-6xl mx-auto px-4 py-3 flex flex-col sm:flex-row items-center justify-between gap-3">
+            <div class="flex items-center space-x-3">
+                <div class="w-8 h-8 rounded-lg bg-indigo-600 flex items-center justify-center font-bold text-white text-sm">
                     Ψ
                 </div>
                 <div>
-                    <h1 class="text-sm sm:text-base font-orbitron font-black tracking-widest text-white neon-text-cyan">DISC 意識神經矩陣解析終端機</h1>
-                    <p class="text-[10px] text-cyber-cyan font-mono tracking-widest uppercase">NEURAL MATRIX SCANNER // STUDENT EDITION v4.6</p>
+                    <h1 class="text-sm font-bold text-white tracking-wide">DISC 學生性格與行為解析系統</h1>
+                    <p class="text-[11px] text-slate-400">MINIMALIST EDITION</p>
                 </div>
             </div>
             <!-- Top Action Buttons -->
-            <div class="flex items-center space-x-3">
-                <button onclick="openModal('behaviorModal')" class="px-3 py-1.5 bg-slate-900 border border-cyber-cyan/50 hover:bg-cyber-cyan/10 text-cyan-400 font-orbitron text-xs rounded-lg transition shadow-[0_0_10px_rgba(0,240,255,0.2)] flex items-center space-x-1.5">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"></path></svg>
-                    <span>外顯行為測驗工具 (9項)</span>
+            <div class="flex items-center space-x-2">
+                <button onclick="openModal('behaviorModal')" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-indigo-300 text-xs font-medium rounded-lg transition border border-slate-700 flex items-center space-x-1.5">
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"></path></svg>
+                    <span>外顯行為測驗 (9項互斥)</span>
                 </button>
-                <button onclick="openModal('traitModal')" class="px-3 py-1.5 bg-slate-900 border border-cyber-magenta/50 hover:bg-cyber-magenta/10 text-pink-400 font-orbitron text-xs rounded-lg transition shadow-[0_0_10px_rgba(255,0,127,0.2)] flex items-center space-x-1.5">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
-                    <span>內在特質自評功能 (12列)</span>
+                <button onclick="openModal('traitModal')" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-pink-300 text-xs font-medium rounded-lg transition border border-slate-700 flex items-center space-x-1.5">
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
+                    <span>內在特質自評 (12列)</span>
                 </button>
             </div>
         </div>
     </header>
 
-    <main class="max-w-7xl mx-auto px-4 py-8 grid grid-cols-1 lg:grid-cols-12 gap-6">
+    <main class="max-w-6xl mx-auto px-4 py-6 grid grid-cols-1 lg:grid-cols-12 gap-6 w-full flex-1">
         
-        <!-- Left Panel: Neural Coordinate & Anonymous ID Input (5 Cols) -->
-        <div class="lg:col-span-5 space-y-6">
+        <!-- Left Panel: Input & Coordinates (5 Cols) -->
+        <div class="lg:col-span-5 space-y-4">
             
-            <div class="bg-cyber-card/95 backdrop-blur-2xl rounded-2xl p-6 border border-cyber-cyan/40 neon-glow-cyan relative overflow-hidden">
-                <div class="absolute top-0 right-0 w-16 h-16 bg-gradient-to-bl from-cyber-cyan/20 to-transparent pointer-events-none"></div>
-
-                <div class="flex items-center justify-between mb-6 border-b border-slate-800 pb-3">
-                    <h2 class="font-orbitron font-bold text-xs tracking-widest text-cyber-cyan uppercase flex items-center">
-                        <span class="w-2 h-2 rounded-full bg-cyber-cyan animate-ping mr-2"></span>
-                        神經脈衝座標與編號 / ANONYMOUS ID & MATRIX
-                    </h2>
-                    <span class="text-[10px] font-mono text-slate-400 bg-slate-900 px-2 py-0.5 rounded border border-slate-800">INT: [-3 ~ +3]</span>
+            <div class="bg-slate-900 rounded-xl p-5 border border-slate-800 shadow-sm space-y-5">
+                <div class="border-b border-slate-800 pb-3">
+                    <h2 class="text-xs font-bold text-slate-300 uppercase tracking-wider">坐標與編號設定</h2>
                 </div>
 
-                <div class="space-y-6">
-                    <!-- Anonymous Student ID Input -->
-                    <div class="space-y-2 bg-slate-950/80 p-4 rounded-xl border border-slate-800 shadow-inner">
-                        <label class="text-xs font-orbitron text-slate-200 font-bold block flex items-center justify-between">
-                            <span>匿名填寫編號 / STUDENT ID</span>
-                            <span class="text-[10px] font-mono text-cyber-cyan">代號</span>
-                        </label>
-                        <input type="text" id="studentIdInput" placeholder="例：STUDENT-2026-007" 
-                            class="w-full bg-slate-900 text-white font-mono text-sm px-4 py-2.5 rounded-lg border border-cyber-cyan/30 focus:border-cyber-cyan focus:outline-none shadow-[0_0_10px_rgba(0,240,255,0.1)]">
-                    </div>
+                <!-- Anonymous Student ID Input -->
+                <div class="space-y-1.5">
+                    <label class="text-xs font-medium text-slate-300 block">匿名填寫編號 / STUDENT ID</label>
+                    <input type="text" id="studentIdInput" placeholder="例：STUDENT-2026-007" 
+                        class="w-full bg-slate-950 text-white text-xs px-3.5 py-2.5 rounded-lg border border-slate-700 focus:border-indigo-500 focus:outline-none">
+                </div>
 
-                    <!-- Y Axis Integer Input -->
-                    <div class="space-y-3 bg-slate-950/80 p-4 rounded-xl border border-slate-800 shadow-inner">
-                        <div class="flex justify-between items-center mb-2">
-                            <div>
-                                <label class="text-xs font-orbitron text-slate-200 font-bold block">Y 軸 // 思考偏好 (Task/Logic)</label>
-                                <span class="text-[10px] font-mono text-cyan-400">-3 (感性/人際) ⇄ +3 (理智/任務)</span>
-                            </div>
-                            <div class="flex items-center space-x-2">
-                                <button onclick="adjustCoordinate('y', -1)" class="w-8 h-8 bg-slate-900 border border-slate-700 text-cyan-400 font-mono font-bold rounded-lg hover:bg-slate-800 transition">-</button>
-                                <input type="number" id="yInput" min="-3" max="3" step="1" value="-2" 
-                                    class="w-12 text-center bg-slate-900 text-cyber-cyan font-mono font-bold text-base py-1 rounded-lg border border-cyber-cyan/40 shadow-[0_0_10px_rgba(0,240,255,0.3)]">
-                                <button onclick="adjustCoordinate('y', 1)" class="w-8 h-8 bg-slate-900 border border-slate-700 text-cyan-400 font-mono font-bold rounded-lg hover:bg-slate-800 transition">+</button>
-                            </div>
+                <!-- Y Axis Integer Input -->
+                <div class="space-y-2 bg-slate-950/60 p-3.5 rounded-lg border border-slate-800/80">
+                    <div class="flex justify-between items-center mb-1">
+                        <div>
+                            <label class="text-xs font-medium text-slate-200 block">Y 軸 // 思考偏好 (Task/Logic)</label>
+                            <span class="text-[10px] text-slate-400">-3 (感性/人際) ⇄ +3 (理智/任務)</span>
                         </div>
-                        <input type="range" min="-3" max="3" step="1" value="-2" id="ySlider" oninput="syncRange('y')" class="w-full accent-cyan-400 bg-slate-900 h-2 rounded cursor-pointer">
-                        <div class="flex justify-between text-[10px] font-mono text-slate-500">
-                            <span>-3 (人際)</span>
-                            <span>0 (中立)</span>
-                            <span>+3 (任務)</span>
+                        <div class="flex items-center space-x-1.5">
+                            <button onclick="adjustCoordinate('y', -1)" class="w-7 h-7 bg-slate-800 text-indigo-300 font-bold rounded hover:bg-slate-700">-</button>
+                            <input type="number" id="yInput" min="-3" max="3" step="1" value="-2" 
+                                class="w-10 text-center bg-slate-900 text-indigo-400 font-bold text-sm py-1 rounded border border-slate-700">
+                            <button onclick="adjustCoordinate('y', 1)" class="w-7 h-7 bg-slate-800 text-indigo-300 font-bold rounded hover:bg-slate-700">+</button>
                         </div>
                     </div>
+                    <input type="range" min="-3" max="3" step="1" value="-2" id="ySlider" oninput="syncRange('y')" class="w-full accent-indigo-500 cursor-pointer">
+                </div>
 
-                    <!-- X Axis Integer Input -->
-                    <div class="space-y-3 bg-slate-950/80 p-4 rounded-xl border border-slate-800 shadow-inner">
-                        <div class="flex justify-between items-center mb-2">
-                            <div>
-                                <label class="text-xs font-orbitron text-slate-200 font-bold block">X 軸 // 行動步調 (Pace/Command)</label>
-                                <span class="text-[10px] font-mono text-pink-400">-3 (果斷/命令) ⇄ +3 (溫和/詢問)</span>
-                            </div>
-                            <div class="flex items-center space-x-2">
-                                <button onclick="adjustCoordinate('x', -1)" class="w-8 h-8 bg-slate-900 border border-slate-700 text-pink-400 font-mono font-bold rounded-lg hover:bg-slate-800 transition">-</button>
-                                <input type="number" id="xInput" min="-3" max="3" step="1" value="-2" 
-                                    class="w-12 text-center bg-slate-900 text-cyber-magenta font-mono font-bold text-base py-1 rounded-lg border border-cyber-magenta/40 shadow-[0_0_10px_rgba(255,0,127,0.3)]">
-                                <button onclick="adjustCoordinate('x', 1)" class="w-8 h-8 bg-slate-900 border border-slate-700 text-pink-400 font-mono font-bold rounded-lg hover:bg-slate-800 transition">+</button>
-                            </div>
+                <!-- X Axis Integer Input -->
+                <div class="space-y-2 bg-slate-950/60 p-3.5 rounded-lg border border-slate-800/80">
+                    <div class="flex justify-between items-center mb-1">
+                        <div>
+                            <label class="text-xs font-medium text-slate-200 block">X 軸 // 行動步調 (Pace/Command)</label>
+                            <span class="text-[10px] text-slate-400">-3 (果斷/命令) ⇄ +3 (溫和/詢問)</span>
                         </div>
-                        <input type="range" min="-3" max="3" step="1" value="-2" id="xSlider" oninput="syncRange('x')" class="w-full accent-pink-500 bg-slate-900 h-2 rounded cursor-pointer">
-                        <div class="flex justify-between text-[10px] font-mono text-slate-500">
-                            <span>-3 (命令)</span>
-                            <span>0 (中立)</span>
-                            <span>+3 (詢問)</span>
+                        <div class="flex items-center space-x-1.5">
+                            <button onclick="adjustCoordinate('x', -1)" class="w-7 h-7 bg-slate-800 text-pink-300 font-bold rounded hover:bg-slate-700">-</button>
+                            <input type="number" id="xInput" min="-3" max="3" step="1" value="-2" 
+                                class="w-10 text-center bg-slate-900 text-pink-400 font-bold text-sm py-1 rounded border border-slate-700">
+                            <button onclick="adjustCoordinate('x', 1)" class="w-7 h-7 bg-slate-800 text-pink-300 font-bold rounded hover:bg-slate-700">+</button>
                         </div>
                     </div>
+                    <input type="range" min="-3" max="3" step="1" value="-2" id="xSlider" oninput="syncRange('x')" class="w-full accent-pink-500 cursor-pointer">
+                </div>
 
-                    <!-- Execute Neural Scan Button -->
-                    <button onclick="executeNeuralScan()" class="w-full py-4 bg-gradient-to-r from-cyber-cyan via-blue-600 to-cyber-magenta hover:from-cyan-400 hover:to-pink-500 text-slate-950 font-orbitron font-extrabold text-xs tracking-wider rounded-xl shadow-[0_0_25px_rgba(0,240,255,0.5)] transition transform hover:scale-[1.02] active:scale-95 flex items-center justify-center space-x-2">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
-                        <span>執行神經解析 / SCAN NEURAL PROFILE</span>
-                    </button>
-                </div>
-            </div>
-
-            <!-- Mini HUD Status -->
-            <div class="bg-cyber-card/95 backdrop-blur-2xl rounded-2xl p-5 border border-slate-800 text-xs font-mono space-y-2">
-                <div class="flex justify-between text-slate-400">
-                    <span>STUDENT PROTOCOL:</span>
-                    <span class="text-emerald-400">SECURE LINK</span>
-                </div>
-                <div class="flex justify-between text-slate-400">
-                    <span>IMAGE EXPORT:</span>
-                    <span class="text-cyber-cyan">HTML2CANVAS ACTIVE</span>
-                </div>
+                <!-- Execute Scan Button -->
+                <button onclick="executeNeuralScan()" class="w-full py-3 bg-indigo-600 hover:bg-indigo-500 text-white font-medium text-xs tracking-wide rounded-lg shadow transition">
+                    執行性格解析 / GENERATE PROFILE
+                </button>
             </div>
         </div>
 
         <!-- Right Panel: Result Display (7 Cols) -->
         <div class="lg:col-span-7">
             
-            <!-- Initial State Box (Before Scan) -->
-            <div id="idleStateBox" class="bg-cyber-card/95 backdrop-blur-2xl rounded-2xl p-10 border border-slate-800 h-full flex flex-col items-center justify-center text-center relative overflow-hidden min-h-[500px]">
-                <div class="w-20 h-20 rounded-full bg-slate-900 border border-cyber-cyan/30 flex items-center justify-center text-cyber-cyan mb-6 shadow-[0_0_30px_rgba(0,240,255,0.15)] animate-pulse">
-                    <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+            <!-- Initial State Box -->
+            <div id="idleStateBox" class="bg-slate-900 rounded-xl p-8 border border-slate-800 h-full flex flex-col items-center justify-center text-center min-h-[420px]">
+                <div class="w-14 h-14 rounded-full bg-slate-800 flex items-center justify-center text-indigo-400 mb-4 border border-slate-700">
+                    <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
                 </div>
-                <h3 class="font-orbitron font-bold text-lg text-white mb-2 neon-text-cyan">等待神經脈衝初始化</h3>
-                <p class="text-xs text-slate-400 max-w-sm leading-relaxed font-mono">請在左側輸入您的匿名編號與整數座標 (X, Y)，並點擊「執行神經解析」，啟動學生專屬賽博性格與 SWOT 分析報告卡。</p>
+                <h3 class="font-bold text-sm text-white mb-1">等待解析啟動</h3>
+                <p class="text-xs text-slate-400 max-w-xs leading-relaxed">請在左側輸入坐標或使用行為/內在量表計算後，點擊「執行性格解析」生成簡約報告卡。</p>
             </div>
 
-            <!-- Active Scan Results Box (Hidden by default) -->
-            <div id="resultBox" class="bg-cyber-card/95 backdrop-blur-2xl rounded-2xl p-6 sm:p-8 border border-cyber-cyan/40 neon-glow-cyan h-full flex flex-col justify-between relative overflow-hidden hidden">
+            <!-- Active Scan Results Box -->
+            <div id="resultBox" class="bg-slate-900 rounded-xl p-6 border border-slate-800 h-full flex flex-col justify-between hidden space-y-4">
                 
-                <!-- Laser scan animation overlay on activation -->
-                <div id="scanLaserOverlay" class="absolute inset-0 bg-gradient-to-b from-transparent via-cyber-cyan/10 to-transparent pointer-events-none hidden scan-laser z-20"></div>
-
-                <!-- Background Sci-Fi watermark -->
-                <div class="absolute -right-10 -bottom-10 text-[160px] font-orbitron font-black text-slate-900/40 pointer-events-none select-none">
-                    DISC
-                </div>
-
-                <div id="reportCardContent">
+                <div id="reportCardContent" class="space-y-4">
                     <!-- Header Status & Anonymous ID -->
-                    <div class="flex flex-wrap items-center justify-between pb-6 border-b border-slate-800 gap-4">
-                        <div>
-                            <div class="flex items-center space-x-2 mb-2">
-                                <span id="resGridNum" class="text-xs font-orbitron font-bold px-3 py-1 bg-cyan-950 text-cyber-cyan rounded-full border border-cyber-cyan/40 uppercase tracking-widest shadow-[0_0_10px_rgba(0,240,255,0.2)]">
-                                    SEC_ZONE // 06
-                                </span>
-                                <span id="resStudentIdBadge" class="text-xs font-mono font-bold px-3 py-1 bg-slate-900 text-pink-400 rounded-full border border-pink-500/30">
-                                    ID: ANONYMOUS
-                                </span>
-                            </div>
+                    <div class="flex flex-wrap items-center justify-between pb-4 border-b border-slate-800 gap-3">
+                        <div class="flex items-center space-x-2">
+                            <span id="resGridNum" class="text-[11px] font-semibold px-2.5 py-1 bg-indigo-950 text-indigo-300 rounded border border-indigo-800/60 uppercase">
+                                SEC_ZONE // 06
+                            </span>
+                            <span id="resStudentIdBadge" class="text-[11px] text-slate-300 px-2.5 py-1 bg-slate-800 rounded border border-slate-700">
+                                ID: ANONYMOUS
+                            </span>
                         </div>
-                        <div class="text-right bg-slate-950/80 px-4 py-3 rounded-xl border border-slate-800">
-                            <div class="text-[10px] font-mono text-slate-400">PILOT VECTOR</div>
-                            <div id="resCoords" class="text-base sm:text-lg font-orbitron font-bold text-cyber-magenta">Y: -2, X: -2</div>
+                        <div class="text-right">
+                            <div class="text-[10px] text-slate-400">PILOT VECTOR</div>
+                            <div id="resCoords" class="text-xs font-bold text-pink-400">Y: -2, X: -2</div>
                         </div>
                     </div>
 
-                    <!-- Content Cards: Two-Column Layout (Left: Big Animal & Title, Right: 9-Grid Radar) -->
-                    <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 mt-6 relative z-10 items-stretch">
-                        
-                        <!-- Left Side (Big Animal, Title & Core Traits) -> 7 Cols -->
-                        <div class="lg:col-span-7 flex flex-col justify-between space-y-4">
-                            <!-- Big Animal Header Box -->
-                            <div class="bg-slate-950/90 rounded-xl p-5 border border-cyber-cyan/40 shadow-inner flex flex-col justify-center">
-                                <h2 id="resAnimal" class="text-xl sm:text-2xl font-extrabold font-orbitron text-white neon-text-cyan">
-                                    🐅 彈性老虎 (主導行動派)
-                                </h2>
-                                <p id="resZoneDesc" class="text-xs text-cyber-cyan font-mono mt-1"></p>
-                            </div>
-
-                            <!-- Core Traits -->
-                            <div class="bg-slate-950/70 rounded-xl p-4 border border-cyber-cyan/30 relative overflow-hidden shadow-lg flex-1">
-                                <div class="absolute top-0 left-0 w-1 h-full bg-cyber-cyan"></div>
-                                <h4 class="text-xs font-orbitron font-bold uppercase tracking-widest text-cyber-cyan mb-1.5 flex items-center">
-                                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
-                                    核心行為特質 (CORE TRAITS)
-                                </h4>
-                                <p id="resTraits" class="text-slate-200 text-xs sm:text-sm leading-relaxed font-medium"></p>
-                            </div>
+                    <!-- Main Animal & Core Traits -->
+                    <div class="grid grid-cols-1 md:grid-cols-12 gap-4 items-stretch">
+                        <div class="md:col-span-7 bg-slate-950 p-4 rounded-lg border border-slate-800 flex flex-col justify-center">
+                            <h2 id="resAnimal" class="text-base font-bold text-white mb-1">
+                                🐅 彈性老虎 (主導行動派)
+                            </h2>
+                            <p id="resZoneDesc" class="text-xs text-indigo-300"></p>
                         </div>
 
-                        <!-- Right Side (9-Grid Radar Preview) -> 5 Cols -->
-                        <div class="lg:col-span-5 bg-slate-950/90 rounded-xl p-4 border border-slate-800 flex flex-col items-center justify-center text-center shadow-inner space-y-3">
-                            <span class="text-cyber-cyan font-orbitron font-bold text-xs uppercase tracking-wider block">九宮格定位雷達</span>
-                            <div class="relative w-36 h-36 bg-slate-900 rounded-lg border border-slate-800 grid grid-cols-3 grid-rows-3 p-1 shrink-0 overflow-hidden shadow-[0_0_15px_rgba(0,240,255,0.1)]">
-                                <div id="mini-cell-1" class="border-b border-r border-slate-800 flex items-center justify-center text-[9px] font-mono text-slate-500">1</div>
-                                <div id="mini-cell-2" class="border-b border-r border-slate-800 flex items-center justify-center text-[9px] font-mono text-slate-500">2</div>
-                                <div id="mini-cell-3" class="border-b border-slate-800 flex items-center justify-center text-[9px] font-mono text-slate-500">3</div>
-                                <div id="mini-cell-4" class="border-b border-r border-slate-800 flex items-center justify-center text-[9px] font-mono text-slate-500">4</div>
-                                <div id="mini-cell-5" class="border-b border-r border-slate-800 flex items-center justify-center text-[9px] font-mono text-slate-500">5</div>
-                                <div id="mini-cell-6" class="border-b border-slate-800 flex items-center justify-center text-[9px] font-mono text-slate-500">6</div>
-                                <div id="mini-cell-7" class="border-r border-slate-800 flex items-center justify-center text-[9px] font-mono text-slate-500">7</div>
-                                <div id="mini-cell-8" class="border-r border-slate-800 flex items-center justify-center text-[9px] font-mono text-slate-500">8</div>
-                                <div id="mini-cell-9" class="flex items-center justify-center text-[9px] font-mono text-slate-500">9</div>
-                                <!-- Glowing Matrix Dot -->
-                                <div id="miniRadarDot" class="absolute w-3 h-3 rounded-full bg-cyber-cyan shadow-[0_0_10px_#00f0ff] border border-white transition-all duration-300 pointer-events-none transform -translate-x-1/2 -translate-y-1/2"></div>
+                        <!-- Mini Radar Preview -->
+                        <div class="md:col-span-5 bg-slate-950 p-3 rounded-lg border border-slate-800 flex flex-col items-center justify-center text-center space-y-2">
+                            <span class="text-[11px] text-slate-400 font-medium">九宮格定位雷達</span>
+                            <div class="relative w-28 h-28 bg-slate-900 rounded border border-slate-800 grid grid-cols-3 grid-rows-3 p-0.5 overflow-hidden">
+                                <div id="mini-cell-1" class="border-b border-r border-slate-800 flex items-center justify-center text-[8px] text-slate-600">1</div>
+                                <div id="mini-cell-2" class="border-b border-r border-slate-800 flex items-center justify-center text-[8px] text-slate-600">2</div>
+                                <div id="mini-cell-3" class="border-b border-slate-800 flex items-center justify-center text-[8px] text-slate-600">3</div>
+                                <div id="mini-cell-4" class="border-b border-r border-slate-800 flex items-center justify-center text-[8px] text-slate-600">4</div>
+                                <div id="mini-cell-5" class="border-b border-r border-slate-800 flex items-center justify-center text-[8px] text-slate-600">5</div>
+                                <div id="mini-cell-6" class="border-b border-slate-800 flex items-center justify-center text-[8px] text-slate-600">6</div>
+                                <div id="mini-cell-7" class="border-r border-slate-800 flex items-center justify-center text-[8px] text-slate-600">7</div>
+                                <div id="mini-cell-8" class="border-r border-slate-800 flex items-center justify-center text-[8px] text-slate-600">8</div>
+                                <div id="mini-cell-9" class="flex items-center justify-center text-[8px] text-slate-600">9</div>
+                                <div id="miniRadarDot" class="absolute w-2.5 h-2.5 rounded-full bg-indigo-400 border border-white transition-all duration-300 pointer-events-none transform -translate-x-1/2 -translate-y-1/2"></div>
                             </div>
-                            <span class="text-[10px] font-mono text-slate-400">向量座標即時對應</span>
                         </div>
-
                     </div>
 
-                    <!-- SWOT & Advice Bottom Grid -->
-                    <div class="space-y-4 mt-4 relative z-10">
-                        <!-- SWOT Analysis for Students -->
-                        <div class="bg-slate-950/90 rounded-xl p-4 border border-purple-500/40 relative overflow-hidden shadow-lg space-y-3">
-                            <div class="absolute top-0 left-0 w-1 h-full bg-purple-500"></div>
-                            <h4 class="text-xs font-orbitron font-bold uppercase tracking-widest text-purple-400 flex items-center">
-                                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
-                                專屬賽博分析 (SWOT MATRIX)
-                            </h4>
-                            
-                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 text-xs">
-                                <div class="bg-slate-900/90 p-2.5 rounded-lg border border-emerald-500/30">
-                                    <span class="text-emerald-400 font-bold font-orbitron block mb-0.5">【S】優勢 (Strengths)</span>
-                                    <p id="swotS" class="text-slate-300 leading-relaxed text-[11px]"></p>
-                                </div>
-                                <div class="bg-slate-900/90 p-2.5 rounded-lg border border-amber-500/30">
-                                    <span class="text-amber-400 font-bold font-orbitron block mb-0.5">【W】劣勢 (Weaknesses)</span>
-                                    <p id="swotW" class="text-slate-300 leading-relaxed text-[11px]"></p>
-                                </div>
-                                <div class="bg-slate-900/90 p-2.5 rounded-lg border border-cyan-500/30">
-                                    <span class="text-cyan-400 font-bold font-orbitron block mb-0.5">【O】機會 (Opportunities)</span>
-                                    <p id="swotO" class="text-slate-300 leading-relaxed text-[11px]"></p>
-                                </div>
-                                <div class="bg-slate-900/90 p-2.5 rounded-lg border border-pink-500/30">
-                                    <span class="text-pink-400 font-bold font-orbitron block mb-0.5">【T】威脅 (Threats)</span>
-                                    <p id="swotT" class="text-slate-300 leading-relaxed text-[11px]"></p>
-                                </div>
-                            </div>
-                        </div>
+                    <!-- Core Traits Description -->
+                    <div class="bg-slate-950 p-3.5 rounded-lg border border-slate-800">
+                        <h4 class="text-[11px] font-bold uppercase tracking-wide text-indigo-400 mb-1">核心行為特質 (CORE TRAITS)</h4>
+                        <p id="resTraits" class="text-slate-300 text-xs leading-relaxed"></p>
+                    </div>
 
-                        <!-- Communication & Interaction Advice -->
-                        <div class="bg-slate-950/70 rounded-xl p-4 border border-cyber-magenta/30 relative overflow-hidden shadow-lg">
-                            <div class="absolute top-0 left-0 w-1 h-full bg-cyber-magenta"></div>
-                            <h4 class="text-xs font-orbitron font-bold uppercase tracking-widest text-cyber-magenta mb-1.5 flex items-center">
-                                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path></svg>
-                                互動與引導建議 (TACTICAL SYNC)
-                            </h4>
-                            <p id="resAdvice" class="text-slate-200 text-xs sm:text-sm leading-relaxed font-medium"></p>
+                    <!-- SWOT Matrix -->
+                    <div class="bg-slate-950 p-3.5 rounded-lg border border-slate-800 space-y-2">
+                        <h4 class="text-[11px] font-bold uppercase tracking-wide text-purple-400">專屬賽博分析 (SWOT MATRIX)</h4>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+                            <div class="bg-slate-900 p-2.5 rounded border border-slate-800"><span class="text-emerald-400 font-semibold block text-[11px]">【S】優勢</span><p id="swotS" class="text-slate-300 text-[11px] mt-0.5"></p></div>
+                            <div class="bg-slate-900 p-2.5 rounded border border-slate-800"><span class="text-amber-400 font-semibold block text-[11px]">【W】劣勢</span><p id="swotW" class="text-slate-300 text-[11px] mt-0.5"></p></div>
+                            <div class="bg-slate-900 p-2.5 rounded border border-slate-800"><span class="text-cyan-400 font-semibold block text-[11px]">【O】機會</span><p id="swotO" class="text-slate-300 text-[11px] mt-0.5"></p></div>
+                            <div class="bg-slate-900 p-2.5 rounded border border-slate-800"><span class="text-pink-400 font-semibold block text-[11px]">【T】威脅</span><p id="swotT" class="text-slate-300 text-[11px] mt-0.5"></p></div>
                         </div>
+                    </div>
+
+                    <!-- Advice -->
+                    <div class="bg-slate-950 p-3.5 rounded-lg border border-slate-800">
+                        <h4 class="text-[11px] font-bold uppercase tracking-wide text-pink-400 mb-1">互動與引導建議 (TACTICAL SYNC)</h4>
+                        <p id="resAdvice" class="text-slate-300 text-xs leading-relaxed"></p>
                     </div>
                 </div>
 
-                <!-- Footer with Export Report Card Button -->
-                <div class="mt-6 pt-4 border-t border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-mono relative z-10">
-                    <span class="text-slate-400">SYS_STATUS: SCAN SUCCESSFUL</span>
-                    <!-- Export Button (Will be hidden automatically during html2canvas capture) -->
-                    <button id="downloadBtn" onclick="downloadReportCard()" class="w-full sm:w-auto px-5 py-2.5 bg-gradient-to-r from-cyber-cyan to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-slate-950 font-orbitron font-bold rounded-lg shadow-[0_0_15px_rgba(0,240,255,0.4)] transition transform hover:scale-105 active:scale-95 flex items-center justify-center space-x-2">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
-                        <span>下載分析報告卡 (Download Card)</span>
+                <!-- Footer Download Button -->
+                <div class="pt-3 border-t border-slate-800 flex items-center justify-between text-xs">
+                    <span class="text-slate-500 text-[11px]">STATUS: READY</span>
+                    <button id="downloadBtn" onclick="downloadReportCard()" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white font-medium text-xs rounded-lg transition shadow">
+                        下載報告卡 (Download PNG)
                     </button>
                 </div>
             </div>
@@ -347,143 +203,62 @@
 
     </main>
 
-    <!-- Modal: 外顯行為測驗工具 (Observer Table - 9 Items Each) -->
-    <div id="behaviorModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden">
-        <div class="bg-cyber-card border border-cyber-cyan/50 rounded-2xl w-full max-w-5xl max-h-[90vh] flex flex-col shadow-[0_0_40px_rgba(0,240,255,0.15)] overflow-hidden">
-            <div class="px-6 py-4 border-b border-slate-800 flex items-center justify-between bg-slate-900/90">
-                <div class="flex items-center space-x-2">
-                    <span class="w-2.5 h-2.5 rounded-full bg-cyber-cyan animate-pulse"></span>
-                    <h3 class="font-orbitron font-bold text-sm text-cyber-cyan tracking-wider">外顯行為觀察與測驗量表 (A1, A2, B1, B2 各 9 項) // BEHAVIOR OBSERVATION</h3>
-                </div>
-                <button onclick="closeModal('behaviorModal')" class="text-slate-400 hover:text-white font-mono text-lg px-2">✕</button>
+    <!-- Modal: 外顯行為測驗工具 (Observer Table - 9 Items Each with Mutual Exclusion) -->
+    <div id="behaviorModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-slate-900 border border-slate-700 rounded-xl w-full max-w-4xl max-h-[90vh] flex flex-col shadow-xl overflow-hidden">
+            <div class="px-5 py-3.5 border-b border-slate-800 flex items-center justify-between bg-slate-900">
+                <h3 class="font-bold text-xs text-indigo-300 tracking-wide">外顯行為觀察量表 (A1/A2, B1/B2 互斥單選)</h3>
+                <button onclick="closeModal('behaviorModal')" class="text-slate-400 hover:text-white text-sm">✕</button>
             </div>
-            <div class="p-6 overflow-y-auto space-y-6 text-xs font-mono text-slate-300">
-                <p class="text-slate-400">填答指引：請根據日常中最真實、最直覺的自然反應進行勾選（非理想中的樣子）。勾選後各欄位總分將自動計算 Y 軸 (A1 - A2) 與 X 軸 (B1 - B2) 座標[cite: 1, 2]。</p>
+            <div class="p-5 overflow-y-auto space-y-5 text-xs text-slate-300">
+                <p class="text-slate-400 text-[11px]">提示：A1 與 A2 為互斥單選（同一題只能選一邊），B1 與 B2 亦同[cite: 1, 2]。</p>
                 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <!-- A1 欄位 (9項) -->
-                    <div class="bg-slate-900/90 p-4 rounded-xl border border-cyan-500/30 space-y-3">
-                        <h4 class="font-orbitron font-bold text-cyan-400 text-xs border-b border-slate-800 pb-2 flex justify-between">
-                            <span>A1 欄位 (情緒/人際偏好)</span>
-                            <span class="text-cyber-cyan">總分: <span id="sumA1">0</span></span>
-                        </h4>
-                        <div class="space-y-2">
-                            <label class="flex items-start space-x-2"><input type="checkbox" class="beh-chk a1" data-val="1"><span>姿勢與肢體動作較多</span></label>
-                            <label class="flex items-start space-x-2"><input type="checkbox" class="beh-chk a1" data-val="1"><span>身體動作灑脫無拘束</span></label>
-                            <label class="flex items-start space-x-2"><input type="checkbox" class="beh-chk a1" data-val="1"><span>說話音調起伏變化多</span></label>
-                            <label class="flex items-start space-x-2"><input type="checkbox" class="beh-chk a1" data-val="1"><span>對時間安排彈性、較鬆</span></label>
-                            <label class="flex items-start space-x-2"><input type="checkbox" class="beh-chk a1" data-val="1"><span>喜歡與人互動接觸的工作</span></label>
-                            <label class="flex items-start space-x-2"><input type="checkbox" class="beh-chk a1" data-val="1"><span>展現活潑、輕鬆的氛圍</span></label>
-                            <label class="flex items-start space-x-2"><input type="checkbox" class="beh-chk a1" data-val="1"><span>偏向依感覺或個人意見做決定</span></label>
-                            <label class="flex items-start space-x-2"><input type="checkbox" class="beh-chk a1" data-val="1"><span>眼神接觸靈活或時間較短</span></label>
-                            <label class="flex items-start space-x-2"><input type="checkbox" class="beh-chk a1" data-val="1"><span>臉部表情豐富且多變</span></label>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                    <!-- A 軸對應題組 -->
+                    <div class="bg-slate-950 p-3.5 rounded-lg border border-slate-800 space-y-3">
+                        <div class="font-bold text-indigo-400 text-[11px] border-b border-slate-800 pb-2 flex justify-between">
+                            <span>A 軸 (A1 情感 vs A2 理智)</span>
+                            <span>A1: <span id="sumA1">0</span> | A2: <span id="sumA2">0</span></span>
                         </div>
+                        <div id="pairGroupA" class="space-y-2.5"></div>
                     </div>
 
-                    <!-- A2 欄位 (9項) -->
-                    <div class="bg-slate-900/90 p-4 rounded-xl border border-cyan-500/30 space-y-3">
-                        <h4 class="font-orbitron font-bold text-cyan-400 text-xs border-b border-slate-800 pb-2 flex justify-between">
-                            <span>A2 欄位 (任務/理性偏好)</span>
-                            <span class="text-cyber-cyan">總分: <span id="sumA2">0</span></span>
-                        </h4>
-                        <div class="space-y-2">
-                            <label class="flex items-start space-x-2"><input type="checkbox" class="beh-chk a2" data-val="1"><span>姿勢與肢體動作較少</span></label>
-                            <label class="flex items-start space-x-2"><input type="checkbox" class="beh-chk a2" data-val="1"><span>身體動作較謹慎拘謹</span></label>
-                            <label class="flex items-start space-x-2"><input type="checkbox" class="beh-chk a2" data-val="1"><span>說話音調較平穩無變化</span></label>
-                            <label class="flex items-start space-x-2"><input type="checkbox" class="beh-chk a2" data-val="1"><span>對時間要求嚴格與精準</span></label>
-                            <label class="flex items-start space-x-2"><input type="checkbox" class="beh-chk a2" data-val="1"><span>喜歡獨立、單純任務型工作</span></label>
-                            <label class="flex items-start space-x-2"><input type="checkbox" class="beh-chk a2" data-val="1"><span>展現嚴肅、嚴謹專業形象</span></label>
-                            <label class="flex items-start space-x-2"><input type="checkbox" class="beh-chk a2" data-val="1"><span>偏向依客觀數據與事實做決定</span></label>
-                            <label class="flex items-start space-x-2"><input type="checkbox" class="beh-chk a2" data-val="1"><span>較多直接且專注的眼神接觸</span></label>
-                            <label class="flex items-start space-x-2"><input type="checkbox" class="beh-chk a2" data-val="1"><span>臉部表情較少、較嚴肅</span></label>
+                    <!-- B 軸對應題組 -->
+                    <div class="bg-slate-950 p-3.5 rounded-lg border border-slate-800 space-y-3">
+                        <div class="font-bold text-pink-400 text-[11px] border-b border-slate-800 pb-2 flex justify-between">
+                            <span>B 軸 (B1 溫和 vs B2 果斷)</span>
+                            <span>B1: <span id="sumB1">0</span> | B2: <span id="sumB2">0</span></span>
                         </div>
-                    </div>
-
-                    <!-- B1 欄位 (9項) -->
-                    <div class="bg-slate-900/90 p-4 rounded-xl border border-pink-500/30 space-y-3">
-                        <h4 class="font-orbitron font-bold text-pink-400 text-xs border-b border-slate-800 pb-2 flex justify-between">
-                            <span>B1 欄位 (溫和/詢問步調)</span>
-                            <span class="text-pink-400">總分: <span id="sumB1">0</span></span>
-                        </h4>
-                        <div class="space-y-2">
-                            <label class="flex items-start space-x-2"><input type="checkbox" class="beh-chk b1" data-val="1"><span>說話語調較溫和輕柔</span></label>
-                            <label class="flex items-start space-x-2"><input type="checkbox" class="beh-chk b1" data-val="1"><span>說話速度較慢且沉穩</span></label>
-                            <label class="flex items-start space-x-2"><input type="checkbox" class="beh-chk b1" data-val="1"><span>溝通時身體傾向後傾</span></label>
-                            <label class="flex items-start space-x-2"><input type="checkbox" class="beh-chk b1" data-val="1"><span>表達意見姿態婉轉客氣</span></label>
-                            <label class="flex items-start space-x-2"><input type="checkbox" class="beh-chk b1" data-val="1"><span>做決定時考慮較久、較慢</span></label>
-                            <label class="flex items-start space-x-2"><input type="checkbox" class="beh-chk b1" data-val="1"><span>行事保守、較少冒險嘗試</span></label>
-                            <label class="flex items-start space-x-2"><input type="checkbox" class="beh-chk b1" data-val="1"><span>別人做決定時，很少給壓力</span></label>
-                            <label class="flex items-start space-x-2"><input type="checkbox" class="beh-chk b1" data-val="1"><span>肢體動作與反應較慢</span></label>
-                            <label class="flex items-start space-x-2"><input type="checkbox" class="beh-chk b1" data-val="1"><span>喜歡分享故事經歷且易流露感情</span></label>
-                        </div>
-                    </div>
-
-                    <!-- B2 欄位 (9項) -->
-                    <div class="bg-slate-900/90 p-4 rounded-xl border border-pink-500/30 space-y-3">
-                        <h4 class="font-orbitron font-bold text-pink-400 text-xs border-b border-slate-800 pb-2 flex justify-between">
-                            <span>B2 欄位 (果斷/命令步調)</span>
-                            <span class="text-pink-400">總分: <span id="sumB2">0</span></span>
-                        </h4>
-                        <div class="space-y-2">
-                            <label class="flex items-start space-x-2"><input type="checkbox" class="beh-chk b2" data-val="1"><span>說話聲音較大聲有力</span></label>
-                            <label class="flex items-start space-x-2"><input type="checkbox" class="beh-chk b2" data-val="1"><span>說話速度較快且明快</span></label>
-                            <label class="flex items-start space-x-2"><input type="checkbox" class="beh-chk b2" data-val="1"><span>溝通時身體傾向前傾</span></label>
-                            <label class="flex items-start space-x-2"><input type="checkbox" class="beh-chk b2" data-val="1"><span>表達意見姿態強勢主導</span></label>
-                            <label class="flex items-start space-x-2"><input type="checkbox" class="beh-chk b2" data-val="1"><span>下決定快速且果斷不拖拉</span></label>
-                            <label class="flex items-start space-x-2"><input type="checkbox" class="beh-chk b2" data-val="1"><span>勇於挑戰、不怕冒險嘗試</span></label>
-                            <label class="flex items-start space-x-2"><input type="checkbox" class="beh-chk b2" data-val="1"><span>別人做決定時，較常給壓力</span></label>
-                            <label class="flex items-start space-x-2"><input type="checkbox" class="beh-chk b2" data-val="1"><span>肢體動作與反應較快</span></label>
-                            <label class="flex items-start space-x-2"><input type="checkbox" class="beh-chk b2" data-val="1"><span>講求重點少說故事，感情不易流露</span></label>
-                        </div>
+                        <div id="pairGroupB" class="space-y-2.5"></div>
                     </div>
                 </div>
 
-                <div class="bg-slate-950 p-4 rounded-xl border border-cyber-cyan/30 flex flex-col sm:flex-row items-center justify-between gap-4">
-                    <div>
-                        <div class="text-cyber-cyan font-bold">計算公式與座標結果：</div>
-                        <div id="calcCoordResult" class="text-sm font-orbitron text-white mt-1">Y 軸 (A1 - A2) = 0 | X 軸 (B1 - B2) = 0</div>
-                    </div>
-                    <button onclick="applyCalculatedCoords()" class="px-4 py-2 bg-cyber-cyan text-slate-950 font-orbitron font-bold rounded-lg hover:bg-cyan-400 transition">帶入主終端機座標</button>
+                <div class="bg-slate-950 p-3 rounded-lg border border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-3">
+                    <div id="calcCoordResult" class="text-xs text-white font-medium">Y 軸 (A1 - A2) = 0 | X 軸 (B1 - B2) = 0</div>
+                    <button onclick="applyCalculatedCoords()" class="px-3.5 py-1.5 bg-indigo-600 hover:bg-indigo-500 text-white font-medium rounded-lg">帶入主終端機座標</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Modal: 內在特質自評功能 (Trait Self-Evaluation - 12 Rows & Confirm Popup) -->
-    <div id="traitModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden">
-        <div class="bg-cyber-card border border-cyber-magenta/50 rounded-2xl w-full max-w-5xl max-h-[90vh] flex flex-col shadow-[0_0_40px_rgba(255,0,127,0.15)] overflow-hidden">
-            <div class="px-6 py-4 border-b border-slate-800 flex items-center justify-between bg-slate-900/90">
-                <div class="flex items-center space-x-2">
-                    <span class="w-2.5 h-2.5 rounded-full bg-cyber-magenta animate-pulse"></span>
-                    <h3 class="font-orbitron font-bold text-sm text-pink-400 tracking-wider">內在性格特質自評表 (12列) // TRAIT SELF-EVAL</h3>
-                </div>
-                <button onclick="closeModal('traitModal')" class="text-slate-400 hover:text-white font-mono text-lg px-2">✕</button>
+    <!-- Modal: 內在特質自評功能 (Trait Self-Evaluation - 12 Rows & Locked 1-4 Input Only) -->
+    <div id="traitModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-slate-900 border border-slate-700 rounded-xl w-full max-w-4xl max-h-[90vh] flex flex-col shadow-xl overflow-hidden">
+            <div class="px-5 py-3.5 border-b border-slate-800 flex items-center justify-between bg-slate-900">
+                <h3 class="font-bold text-xs text-pink-300 tracking-wide">內在性格特質自評表 (12列) // 嚴格鎖定 1-4</h3>
+                <button onclick="closeModal('traitModal')" class="text-slate-400 hover:text-white text-sm">✕</button>
             </div>
-            <div class="p-6 overflow-y-auto space-y-4 text-xs font-mono text-slate-300">
-                <!-- Instructions based on user's image -->
-                <div class="bg-slate-900/90 p-4 rounded-xl border border-pink-500/30 space-y-2">
-                    <div class="text-pink-400 font-bold font-orbitron">填寫說明與評分規則：</div>
-                    <p class="text-slate-300">直覺反應：請依據您「最真實的直覺/本能反應」填寫，而不是「您認為應該要怎樣」。此測驗沒有對錯之分[cite: 5]。</p>
-                    <p class="text-slate-300">評分方式：每一橫列（共 12 列）有 4 個描述詞。請在每行方格中填入 1 ~ 4 的數字[cite: 5]：</p>
-                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-[11px] text-cyan-300">
-                        <div>4分：最符合/最像您[cite: 5]</div>
-                        <div>3分：次符合[cite: 5]</div>
-                        <div>2分：稍微符合[cite: 5]</div>
-                        <div>1分：最不符合/最不像您[cite: 5]</div>
-                    </div>
-                    <p class="text-amber-400 font-bold mt-1">⚠️ 注意事項：每一橫列的數字 (1, 2, 3, 4) 不能重複使用[cite: 5]！</p>
+            <div class="p-5 overflow-y-auto space-y-4 text-xs text-slate-300">
+                <div class="bg-slate-950 p-3.5 rounded-lg border border-slate-800 space-y-1.5">
+                    <div class="text-pink-400 font-semibold">填寫規則與限制說明：</div>
+                    <p class="text-slate-400 text-[11px]">每一橫列（共 12 列）請填入數字 1 至 4，**每一列內的數字絕對不能重複**[cite: 5]。系統已強制鎖定僅接受 1~4 的數字，不接受其他任何文字或非指定數字。</p>
                 </div>
                 
-                <div id="traitRowsContainer" class="space-y-3">
-                    <!-- Dynamic 12 Rows injected via JS with blank inputs -->
-                </div>
+                <div id="traitRowsContainer" class="space-y-2.5"></div>
 
-                <div class="bg-slate-950 p-4 rounded-xl border border-cyber-magenta/30 flex flex-col sm:flex-row items-center justify-between gap-4 sticky bottom-0 bg-slate-950/95 backdrop-blur">
-                    <div>
-                        <div id="traitStatusMsg" class="text-slate-400 font-bold">狀態：請在每一列填入 1~4 且不重複的數字</div>
-                    </div>
-                    <!-- Confirm Analysis Button -->
-                    <button onclick="confirmTraitAnalysis()" id="confirmTraitBtn" class="px-5 py-2.5 bg-cyber-magenta text-slate-950 font-orbitron font-bold rounded-lg hover:bg-pink-500 transition shadow-[0_0_15px_rgba(255,0,127,0.4)] opacity-50 cursor-not-allowed" disabled>
+                <div class="bg-slate-950 p-3.5 rounded-lg border border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-3 sticky bottom-0 bg-slate-950/95">
+                    <div id="traitStatusMsg" class="text-slate-400 font-medium">狀態：請在每一列填入 1~4 且不重複的數字</div>
+                    <button onclick="confirmTraitAnalysis()" id="confirmTraitBtn" class="px-4 py-2 bg-pink-600 hover:bg-pink-500 text-white font-medium rounded-lg opacity-50 cursor-not-allowed transition" disabled>
                         確認內在特質分析
                     </button>
                 </div>
@@ -491,39 +266,33 @@
         </div>
     </div>
 
-    <!-- Modal: 內在特質分析結果彈跳視窗 (Trait Analysis Result Popup) -->
-    <div id="traitResultModal" class="fixed inset-0 bg-slate-950/90 backdrop-blur-lg z-50 flex items-center justify-center p-4 hidden">
-        <div class="bg-cyber-card border border-cyber-cyan/60 rounded-2xl w-full max-w-2xl p-6 shadow-[0_0_50px_rgba(0,240,255,0.25)] space-y-5 relative overflow-hidden">
-            <div class="absolute top-0 right-0 w-32 h-32 bg-cyber-cyan/10 rounded-full blur-2xl pointer-events-none"></div>
-            
+    <!-- Modal: 內在特質分析結果彈跳視窗 -->
+    <div id="traitResultModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-slate-900 border border-slate-700 rounded-xl w-full max-w-lg p-5 shadow-xl space-y-4">
             <div class="flex items-center justify-between border-b border-slate-800 pb-3">
-                <div class="flex items-center space-x-2">
-                    <span class="w-3 h-3 rounded-full bg-cyber-cyan animate-ping"></span>
-                    <h3 class="font-orbitron font-bold text-base text-cyber-cyan tracking-wider">內在性格特質解析報告</h3>
-                </div>
-                <button onclick="closeModal('traitResultModal')" class="text-slate-400 hover:text-white font-mono text-lg px-2">✕</button>
+                <h3 class="font-bold text-sm text-indigo-300">內在性格特質解析報告</h3>
+                <button onclick="closeModal('traitResultModal')" class="text-slate-400 hover:text-white text-sm">✕</button>
             </div>
 
-            <div class="space-y-4 text-xs font-mono">
-                <div class="bg-slate-900/90 p-4 rounded-xl border border-slate-800 space-y-2">
-                    <div class="text-slate-400 font-bold">各欄位總分統計：</div>
-                    <div id="popupScores" class="text-sm font-orbitron text-pink-400">D: 0 | I: 0 | S: 0 | C: 0</div>
+            <div class="space-y-3 text-xs">
+                <div class="bg-slate-950 p-3 rounded-lg border border-slate-800">
+                    <span class="text-slate-400 block mb-1">各欄位總分統計：</span>
+                    <div id="popupScores" class="text-pink-400 font-semibold">D: 0 | I: 0 | S: 0 | C: 0</div>
                 </div>
 
-                <div class="bg-slate-950/90 p-4 rounded-xl border border-cyber-cyan/40 space-y-3">
-                    <div class="text-cyber-cyan font-bold font-orbitron uppercase tracking-wider">最高分傾向與判定[cite: 6]：</div>
-                    <div id="popupDominantTitle" class="text-base font-bold font-orbitron text-white">分析中...</div>
-                    <p id="popupCoreDesc" class="text-slate-300 leading-relaxed text-xs"></p>
+                <div class="bg-slate-950 p-3 rounded-lg border border-slate-800 space-y-2">
+                    <div id="popupDominantTitle" class="text-sm font-bold text-white">分析中...</div>
+                    <p id="popupCoreDesc" class="text-slate-300 leading-relaxed text-[11px]"></p>
                 </div>
             </div>
 
-            <div class="flex justify-end pt-2">
-                <button onclick="closeModal('traitResultModal')" class="px-5 py-2 bg-cyber-cyan text-slate-950 font-orbitron font-bold rounded-lg hover:bg-cyan-400 transition">了解並關閉</button>
+            <div class="flex justify-end pt-1">
+                <button onclick="closeModal('traitResultModal')" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white font-medium rounded-lg text-xs">了解並關閉</button>
             </div>
         </div>
     </div>
 
-    <!-- JavaScript Cyber Engine -->
+    <!-- JavaScript Engine -->
     <script>
         const xInput = document.getElementById('xInput');
         const yInput = document.getElementById('yInput');
@@ -531,11 +300,122 @@
         const ySlider = document.getElementById('ySlider');
         const idleStateBox = document.getElementById('idleStateBox');
         const resultBox = document.getElementById('resultBox');
-        const scanLaserOverlay = document.getElementById('scanLaserOverlay');
         const studentIdInput = document.getElementById('studentIdInput');
         const downloadBtn = document.getElementById('downloadBtn');
 
-        // Full 12 rows data corresponding to D (Tiger), I (Peacock), S (Koala), C (Owl)
+        // External Behavior Data
+        const behaviorPairsA = [
+            { a1: "姿勢與肢體動作較多", a2: "姿勢與肢體動作較少" },
+            { a1: "身體動作灑脫無拘束", a2: "身體動作較謹慎拘謹" },
+            { a1: "說話音調起伏變化多", a2: "說話音調較平穩無變化" },
+            { a1: "對時間安排彈性、較鬆", a2: "對時間要求嚴格與精準" },
+            { a1: "喜歡與人互動接觸的工作", a2: "喜歡獨立、單純任務型工作" },
+            { a1: "展現活潑、輕鬆的氛圍", a2: "展現嚴肅、嚴謹專業形象" },
+            { a1: "偏向依感覺或個人意見做決定", a2: "偏向依客觀數據與事實做決定" },
+            { a1: "眼神接觸靈活或時間較短", a2: "較多直接且專注的眼神接觸" },
+            { a1: "臉部表情豐富且多變", a2: "臉部表情較少、較嚴肅" }
+        ];
+
+        const behaviorPairsB = [
+            { b1: "說話語調較溫和輕柔", b2: "說話聲音較大聲有力" },
+            { b1: "說話速度較慢且沉穩", b2: "說話速度較快且明快" },
+            { b1: "溝通時身體傾向後傾", b2: "溝通時身體傾向前傾" },
+            { b1: "表達意見姿態婉轉客氣", b2: "表達意見姿態強勢主導" },
+            { b1: "做決定時考慮較久、較慢", b2: "下決定快速且果斷不拖拉" },
+            { b1: "行事保守、較少冒險嘗試", b2: "勇於挑戰、不怕冒險嘗試" },
+            { b1: "別人做決定時，很少給壓力", b2: "別人做決定時，較常給壓力" },
+            { b1: "肢體動作與反應較慢", b2: "肢體動作與反應較快" },
+            { b1: "喜歡分享故事經歷且易流露感情", b2: "講求重點少說故事，感情不易流露" }
+        ];
+
+        // Render Behavior Pairs A
+        const groupAContainer = document.getElementById('pairGroupA');
+        behaviorPairsA.forEach((pair, idx) => {
+            const div = document.createElement('div');
+            div.className = 'bg-slate-900 p-2.5 rounded border border-slate-800 space-y-1.5';
+            div.innerHTML = `
+                <div class="text-[10px] text-slate-400 font-semibold">第 ${idx+1} 題：</div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                    <label class="flex items-start space-x-2 cursor-pointer bg-slate-950 p-2 rounded border border-slate-800 hover:border-indigo-500/50">
+                        <input type="checkbox" class="beh-ex a1 idx-${idx}" data-index="${idx}" onchange="handleBehaviorExclusion('a', ${idx}, 1)">
+                        <span class="text-indigo-300">A1: ${pair.a1}</span>
+                    </label>
+                    <label class="flex items-start space-x-2 cursor-pointer bg-slate-950 p-2 rounded border border-slate-800 hover:border-indigo-500/50">
+                        <input type="checkbox" class="beh-ex a2 idx-${idx}" data-index="${idx}" onchange="handleBehaviorExclusion('a', ${idx}, 2)">
+                        <span class="text-slate-300">A2: ${pair.a2}</span>
+                    </label>
+                </div>
+            `;
+            groupAContainer.appendChild(div);
+        });
+
+        // Render Behavior Pairs B
+        const groupBContainer = document.getElementById('pairGroupB');
+        behaviorPairsB.forEach((pair, idx) => {
+            const div = document.createElement('div');
+            div.className = 'bg-slate-900 p-2.5 rounded border border-slate-800 space-y-1.5';
+            div.innerHTML = `
+                <div class="text-[10px] text-slate-400 font-semibold">第 ${idx+1} 題：</div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                    <label class="flex items-start space-x-2 cursor-pointer bg-slate-950 p-2 rounded border border-slate-800 hover:border-pink-500/50">
+                        <input type="checkbox" class="beh-ex b1 idx-${idx}" data-index="${idx}" onchange="handleBehaviorExclusion('b', ${idx}, 1)">
+                        <span class="text-pink-300">B1: ${pair.b1}</span>
+                    </label>
+                    <label class="flex items-start space-x-2 cursor-pointer bg-slate-950 p-2 rounded border border-slate-800 hover:border-pink-500/50">
+                        <input type="checkbox" class="beh-ex b2 idx-${idx}" data-index="${idx}" onchange="handleBehaviorExclusion('b', ${idx}, 2)">
+                        <span class="text-slate-300">B2: ${pair.b2}</span>
+                    </label>
+                </div>
+            `;
+            groupBContainer.appendChild(div);
+        });
+
+        function handleBehaviorExclusion(group, idx, type) {
+            const currentBox = document.querySelector(`.beh-ex.${group}${type}.idx-${idx}`);
+            const otherType = type === 1 ? 2 : 1;
+            const otherBox = document.querySelector(`.beh-ex.${group}${otherType}.idx-${idx}`);
+
+            if (currentBox.checked) {
+                otherBox.checked = false;
+            }
+
+            const a1Count = document.querySelectorAll('.beh-ex.a1:checked').length;
+            const a2Count = document.querySelectorAll('.beh-ex.a2:checked').length;
+            const b1Count = document.querySelectorAll('.beh-ex.b1:checked').length;
+            const b2Count = document.querySelectorAll('.beh-ex.b2:checked').length;
+
+            document.getElementById('sumA1').innerText = a1Count;
+            document.getElementById('sumA2').innerText = a2Count;
+            document.getElementById('sumB1').innerText = b1Count;
+            document.getElementById('sumB2').innerText = b2Count;
+
+            const calcY = a1Count - a2Count;
+            const calcX = b1Count - b2Count;
+            document.getElementById('calcCoordResult').innerText = `Y 軸 (A1 - A2) = ${calcY} | X 軸 (B1 - B2) = ${calcX}`;
+        }
+
+        function applyCalculatedCoords() {
+            const a1Count = document.querySelectorAll('.beh-ex.a1:checked').length;
+            const a2Count = document.querySelectorAll('.beh-ex.a2:checked').length;
+            const b1Count = document.querySelectorAll('.beh-ex.b1:checked').length;
+            const b2Count = document.querySelectorAll('.beh-ex.b2:checked').length;
+
+            let calcY = a1Count - a2Count;
+            let calcX = b1Count - b2Count;
+
+            if (calcY > 3) calcY = 3; if (calcY < -3) calcY = -3;
+            if (calcX > 3) calcX = 3; if (calcX < -3) calcX = -3;
+
+            yInput.value = calcY;
+            ySlider.value = calcY;
+            xInput.value = calcX;
+            xSlider.value = calcX;
+
+            closeModal('behaviorModal');
+            executeNeuralScan();
+        }
+
+        // Full 12 rows data
         const traitData = [
             { row: 1, d: "強力的", i: "朝氣蓬勃的", s: "中庸的", c: "老練的" },
             { row: 2, d: "積極的", i: "情緒化的", s: "隨和的", c: "一致的" },
@@ -551,33 +431,44 @@
             { row: 12, d: "獨立的", i: "狂熱的", s: "好的傾聽者", c: "高標準" }
         ];
 
-        // Trait Meta definitions for popup explanation
         const traitMeta = {
             d: { name: "🐅 老虎 / D (支配型)", desc: "具備強大的執行力與決斷力，重視目標與效率，敢於挑戰與承擔責任[cite: 6]。" },
             i: { name: "🦚 孔雀 / I (影響型)", desc: "具備極佳的感染力與社交能力，熱情活潑、樂觀，善於帶動團隊氣氛[cite: 6]。" },
-            s: { name: "🐨 考拉/無尾熊 / S (穩健型)", desc: "具備出色的聽力與包容力，性格溫和和隨和，追求穩定與團隊和諧[cite: 6]。" },
-            c: { name: "🦉 貓頭鷹 / C (分析型)", desc: "具備嚴謹的邏輯力與思考力，講求精準、注重細節與規則，追求高品質[cite: 6]。" }
+            s: { name: "🐨 考拉/無尾熊 / S (穩健型)", desc: "具備出色的聽力與包容力，性格溫和隨和，追求穩定與團隊和諧[cite: 6]。" },
+            c: { name: "🦉 貓頭鷹 / C (分析型)", desc: "具備嚴謹的邏輯力與思考力，講求精準、注重細節與規則，追求高品質。" }
         };
 
-        // Render 12 rows dynamically with blank inputs
-        const container = document.getElementById('traitRowsContainer');
+        // Render 12 rows dynamically with strict 1-4 validation and input restriction
+        const traitContainer = document.getElementById('traitRowsContainer');
         traitData.forEach(item => {
             const rowDiv = document.createElement('div');
-            rowDiv.className = 'bg-slate-900/90 p-3 rounded-xl border border-slate-800 space-y-2';
+            rowDiv.className = 'bg-slate-950 p-3 rounded-lg border border-slate-800 space-y-2';
             rowDiv.innerHTML = `
                 <div class="flex justify-between items-center">
-                    <span class="font-bold text-cyber-magenta">第 ${item.row} 列</span>
-                    <span id="warn-r${item.row}" class="text-[10px] text-pink-400 font-mono">尚未填寫完整 (需填 1~4 不重複)</span>
+                    <span class="font-bold text-indigo-300">第 ${item.row} 列</span>
+                    <span id="warn-r${item.row}" class="text-[10px] text-pink-400 font-mono">尚未填寫 (需填 1~4 不重複)</span>
                 </div>
                 <div class="grid grid-cols-1 sm:grid-cols-4 gap-2">
-                    <div><span class="text-slate-400 block text-[10px]">第1欄 [D-老虎]: ${item.d}</span><input type="number" min="1" max="4" placeholder="請填1-4" class="w-full bg-slate-950 text-white px-2 py-1 rounded border border-slate-700 trait-input r${item.row}" data-row="${item.row}" data-col="d" oninput="validateTraits()"></div>
-                    <div><span class="text-slate-400 block text-[10px]">第2欄 [I-孔雀]: ${item.i}</span><input type="number" min="1" max="4" placeholder="請填1-4" class="w-full bg-slate-950 text-white px-2 py-1 rounded border border-slate-700 trait-input r${item.row}" data-row="${item.row}" data-col="i" oninput="validateTraits()"></div>
-                    <div><span class="text-slate-400 block text-[10px]">第3欄 [S-無尾熊]: ${item.s}</span><input type="number" min="1" max="4" placeholder="請填1-4" class="w-full bg-slate-950 text-white px-2 py-1 rounded border border-slate-700 trait-input r${item.row}" data-row="${item.row}" data-col="s" oninput="validateTraits()"></div>
-                    <div><span class="text-slate-400 block text-[10px]">第4欄 [C-貓頭鷹]: ${item.c}</span><input type="number" min="1" max="4" placeholder="請填1-4" class="w-full bg-slate-950 text-white px-2 py-1 rounded border border-slate-700 trait-input r${item.row}" data-row="${item.row}" data-col="c" oninput="validateTraits()"></div>
+                    <div><span class="text-slate-400 block text-[10px] mb-1">第1欄：${item.d}</span><input type="text" maxlength="1" placeholder="1-4" class="w-full bg-slate-900 text-white text-center px-2 py-1.5 rounded border border-slate-700 trait-input r${item.row}" data-row="${item.row}" data-col="d" oninput="enforceStrict1To4(this)"></div>
+                    <div><span class="text-slate-400 block text-[10px] mb-1">第2欄：${item.i}</span><input type="text" maxlength="1" placeholder="1-4" class="w-full bg-slate-900 text-white text-center px-2 py-1.5 rounded border border-slate-700 trait-input r${item.row}" data-row="${item.row}" data-col="i" oninput="enforceStrict1To4(this)"></div>
+                    <div><span class="text-slate-400 block text-[10px] mb-1">第3欄：${item.s}</span><input type="text" maxlength="1" placeholder="1-4" class="w-full bg-slate-900 text-white text-center px-2 py-1.5 rounded border border-slate-700 trait-input r${item.row}" data-row="${item.row}" data-col="s" oninput="enforceStrict1To4(this)"></div>
+                    <div><span class="text-slate-400 block text-[10px] mb-1">第4欄：${item.c}</span><input type="text" maxlength="1" placeholder="1-4" class="w-full bg-slate-900 text-white text-center px-2 py-1.5 rounded border border-slate-700 trait-input r${item.row}" data-row="${item.row}" data-col="c" oninput="enforceStrict1To4(this)"></div>
                 </div>
             `;
-            container.appendChild(rowDiv);
+            traitContainer.appendChild(rowDiv);
         });
+
+        // Strict 1-4 input enforcement: Only allows characters '1', '2', '3', or '4'
+        function enforceStrict1To4(inputEl) {
+            let val = inputEl.value;
+            // Remove anything that is not 1, 2, 3, or 4
+            val = val.replace(/[^1-4]/g, '');
+            if (val.length > 1) {
+                val = val.charAt(0);
+            }
+            inputEl.value = val;
+            validateTraits();
+        }
 
         function validateTraits() {
             let allValid = true;
@@ -591,10 +482,10 @@
                 const uniqueVals = new Set(vals);
                 const warnEl = document.getElementById(`warn-r${i}`);
 
-                if (vals.some(v => isNaN(v)) || uniqueVals.size !== 4 || vals.some(v => v < 1 || v > 4)) {
+                if (vals.some(v => isNaN(v)) || uniqueVals.size !== 4) {
                     allValid = false;
-                    warnEl.className = "text-[10px] text-pink-500 font-mono font-bold";
-                    warnEl.innerText = "⚠️ 每列需填入 1~4 且數字不能重複！";
+                    warnEl.className = "text-[10px] text-pink-400 font-mono";
+                    warnEl.innerText = "⚠️ 需填 1~4 且數字不能重複";
                 } else {
                     warnEl.className = "text-[10px] text-emerald-400 font-mono";
                     warnEl.innerText = "✓ 格式正確";
@@ -607,13 +498,13 @@
             if (allValid) {
                 confirmBtn.disabled = false;
                 confirmBtn.classList.remove('opacity-50', 'cursor-not-allowed');
-                statusMsg.className = "text-emerald-400 font-bold";
-                statusMsg.innerText = "✓ 所有 12 列填寫完畢且規則正確，可點擊確認分析！";
+                statusMsg.className = "text-emerald-400 font-medium";
+                statusMsg.innerText = "✓ 所有 12 列填寫完畢，可點擊確認分析！";
             } else {
                 confirmBtn.disabled = true;
                 confirmBtn.classList.add('opacity-50', 'cursor-not-allowed');
-                statusMsg.className = "text-slate-400 font-bold";
-                statusMsg.innerText = "狀態：請檢查上方紅色警告，確保每列數字 1~4 不重複";
+                statusMsg.className = "text-slate-400 font-medium";
+                statusMsg.innerText = "狀態：請確保 12 列皆填入 1~4 且無重複數字";
             }
         }
 
@@ -626,7 +517,7 @@
                 totalC += parseInt(document.querySelector(`.trait-input.r${i}[data-col="c"]`).value) || 0;
             }
 
-            document.getElementById('popupScores').innerText = `D (老虎): ${totalD} | I (孔雀): ${totalI} | S (無尾熊): ${totalS} | C (貓頭鷹): ${totalC}`;
+            document.getElementById('popupScores').innerText = `D: ${totalD} | I: ${totalI} | S: ${totalS} | C: ${totalC}`;
 
             let maxScore = Math.max(totalD, totalI, totalS, totalC);
             let topTraits = [];
@@ -696,52 +587,11 @@
             }
         });
 
-        // Behavior Checkbox calculation
-        document.querySelectorAll('.beh-chk').forEach(chk => {
-            chk.addEventListener('change', () => {
-                const a1Count = document.querySelectorAll('.beh-chk.a1:checked').length;
-                const a2Count = document.querySelectorAll('.beh-chk.a2:checked').length;
-                const b1Count = document.querySelectorAll('.beh-chk.b1:checked').length;
-                const b2Count = document.querySelectorAll('.beh-chk.b2:checked').length;
-
-                document.getElementById('sumA1').innerText = a1Count;
-                document.getElementById('sumA2').innerText = a2Count;
-                document.getElementById('sumB1').innerText = b1Count;
-                document.getElementById('sumB2').innerText = b2Count;
-
-                const calcY = a1Count - a2Count;
-                const calcX = b1Count - b2Count;
-
-                document.getElementById('calcCoordResult').innerText = `Y 軸 (A1 - A2) = ${calcY} | X 軸 (B1 - B2) = ${calcX}`;
-            });
-        });
-
-        function applyCalculatedCoords() {
-            const a1Count = document.querySelectorAll('.beh-chk.a1:checked').length;
-            const a2Count = document.querySelectorAll('.beh-chk.a2:checked').length;
-            const b1Count = document.querySelectorAll('.beh-chk.b1:checked').length;
-            const b2Count = document.querySelectorAll('.beh-chk.b2:checked').length;
-
-            let calcY = a1Count - a2Count;
-            let calcX = b1Count - b2Count;
-
-            if (calcY > 3) calcY = 3; if (calcY < -3) calcY = -3;
-            if (calcX > 3) calcX = 3; if (calcX < -3) calcX = -3;
-
-            yInput.value = calcY;
-            ySlider.value = calcY;
-            xInput.value = calcX;
-            xSlider.value = calcX;
-
-            closeModal('behaviorModal');
-            executeNeuralScan();
-        }
-
         function evaluateDISC(x, y) {
             for (let i = 1; i <= 9; i++) {
                 const el = document.getElementById(`mini-cell-${i}`);
                 if (el) {
-                    el.classList.remove('bg-cyber-cyan/40', 'border-cyber-cyan', 'text-white', 'shadow-[0_0_10px_rgba(0,240,255,0.5)]');
+                    el.classList.remove('bg-indigo-600/30', 'border-indigo-500', 'text-white');
                 }
             }
 
@@ -753,7 +603,7 @@
                 result = {
                     gridNum: "SEC_ZONE // 01",
                     animal: "🦉 貓頭鷹型 (C) - 分析型學生",
-                    zoneDesc: "第1格：左上象限 (理性/任務偏好 ＋ 詢問/溫和步調)[cite: 2]",
+                    zoneDesc: "左上象限 (理性/任務偏好 ＋ 詢問/溫和步調)[cite: 2]",
                     traits: "做事條理分明、重視作業與考卷細節、講求邏輯與秩序，遵守校規與班級整潔。",
                     swot: {
                         s: "作業與筆記非常整齊，理科實驗報告與邏輯推理能力強，備考時細節不易失分。",
@@ -768,13 +618,13 @@
                 result = {
                     gridNum: "SEC_ZONE // 02",
                     animal: "⚡ 彈性理智型 (理性老虎 / 決策貓頭鷹)",
-                    zoneDesc: "第2格：中上格 (任務導向極強，兼具邏輯分析與果斷執行力)[cite: 2]",
+                    zoneDesc: "中上格 (任務導向極強，兼具邏輯分析與果斷執行力)[cite: 2]",
                     traits: "做事有效率且有條理，能在短時間內分析問題並果斷做出決定，是班上的智囊型小隊長。",
                     swot: {
                         s: "兼具理性分析與果斷執行力，在班級報告或段考衝刺時能迅速抓到核心重點。",
                         w: "有時對同組同學要求較高，溝通時可能顯得嚴肅或缺乏一點耐心與同理心。",
                         o: "非常適合擔任班級幹部、辯論賽代表、學藝股長或競賽小組主將。",
-                        t: "容易給同組同學過大壓力，需要注意團隊氛圍與人際包容。"
+                        t: "容易給同組同學過大壓力，需要注意團隊圍氛與人際包容。"
                     },
                     advice: "給予清楚的目標與自主發揮空間，討論時直接切入重點，並鼓勵多傾聽同伴感受。"
                 };
@@ -783,7 +633,7 @@
                 result = {
                     gridNum: "SEC_ZONE // 03",
                     animal: "🐅 老虎型 (D) - 支配型戰士",
-                    zoneDesc: "第3格：右上象限 (理性/任務偏好 ＋ 果斷/命令步調)[cite: 2]",
+                    zoneDesc: "右上象限 (理性/任務偏好 ＋ 果斷/命令步調)[cite: 2]",
                     traits: "目標導向、爭取第一、果斷有魄力、充滿領導欲、在競賽與球場上非常有企圖心。",
                     swot: {
                         s: "行動力強、有強烈的責任感與領導氣勢，能在分組作業中迅速帶領團隊交出成果。",
@@ -798,7 +648,7 @@
                 result = {
                     gridNum: "SEC_ZONE // 04",
                     animal: "🦉 彈性貓頭鷹 (溫和分析型)",
-                    zoneDesc: "第4格：中左格 (思考嚴謹細致，態度溫和謙遜)[cite: 2]",
+                    zoneDesc: "中左格 (思考嚴謹細致，態度溫和謙遜)[cite: 2]",
                     traits: "個性溫和友善、做事細心負責，不喜歡與人爭執，是老師眼中的乖巧好學生。",
                     swot: {
                         s: "做事有條理且包容心強，人際關係溫和，日常作業與筆記品質相當穩定。",
@@ -813,7 +663,7 @@
                 result = {
                     gridNum: "SEC_ZONE // 05",
                     animal: "🦎 中立整合型 (變色龍特務)",
-                    zoneDesc: "第5格：正中核心區 (彈性最高、適應力極強)[cite: 2]",
+                    zoneDesc: "正中核心區 (彈性最高、適應力極強)[cite: 2]",
                     traits: "隨和且適應力極強，無論分到哪一組都能立刻融入，能依據情況切換讀書或玩樂模式。",
                     swot: {
                         s: "適應力超強、人緣極佳，能同時理解班上學霸和活潑同學的想法與需求。",
@@ -828,7 +678,7 @@
                 result = {
                     gridNum: "SEC_ZONE // 06",
                     animal: "🐅 彈性老虎 (主導行動派)",
-                    zoneDesc: "第6格：中右格 (行動力與主導性強，兼具人際彈性)[cite: 2]",
+                    zoneDesc: "中右格 (行動力與主導性強，兼具人際彈性)[cite: 2]",
                     traits: "既有老虎的果斷行動力，又帶有不錯的社交魅力，在班上很有號召力與人氣。",
                     swot: {
                         s: "行動力高且擅長帶動班級氣氛，既能拚段考成績又能搞定社團活動。",
@@ -843,7 +693,7 @@
                 result = {
                     gridNum: "SEC_ZONE // 07",
                     animal: "🐨 考拉 / 無尾熊型 (S) - 穩健型守衛",
-                    zoneDesc: "第7格：左下象限 (情感/人際偏好 ＋ 詢問/溫和步調)[cite: 2]",
+                    zoneDesc: "左下象限 (情感/人際偏好 ＋ 詢問/溫和步調)[cite: 2]",
                     traits: "脾氣超好、超級有耐心、重視班級與社團的和諧，是朋友吐露心事的最佳聆聽者。",
                     swot: {
                         s: "非常有同理心與耐性，配合度極高，做事穩扎穩打、值得信賴的好夥伴。",
@@ -858,7 +708,7 @@
                 result = {
                     gridNum: "SEC_ZONE // 08",
                     animal: "🦚 彈性人際型 (彈性孔雀 / 彈性考拉)",
-                    zoneDesc: "第8格：中下格 (人際導向極強，善於傾聽與熱情表達)[cite: 2]",
+                    zoneDesc: "中下格 (人際導向極強，善於傾聽與熱情表達)[cite: 2]",
                     traits: "充滿人情味與溫暖，既能開心炒熱氣氛，又能溫柔陪伴需要幫助的同學。",
                     swot: {
                         s: "人際關係極佳，擅長協調同學間的衝突，是班上凝聚向心力的核心人物。",
@@ -873,7 +723,7 @@
                 result = {
                     gridNum: "SEC_ZONE // 09",
                     animal: "🦚 孔雀型 (I) - 影響型先鋒",
-                    zoneDesc: "第9格：右下象限 (情感/人際偏好 ＋ 果斷/命令步調)[cite: 2]",
+                    zoneDesc: "右下象限 (情感/人際偏好 ＋ 果斷/命令步調)[cite: 2]",
                     traits: "活潑外向、幽默風趣、才華洋溢、表演慾強，是學校晚會、成發和社團的靈魂人物。",
                     swot: {
                         s: "口才極佳、極具渲染力與創意，人氣旺盛，在團康與上臺報告時表現驚豔。",
@@ -887,7 +737,7 @@
 
             const activeCell = document.getElementById(`mini-cell-${zoneId}`);
             if (activeCell) {
-                activeCell.classList.add('bg-cyber-cyan/40', 'border-cyber-cyan', 'text-white', 'shadow-[0_0_10px_rgba(0,240,255,0.5)]');
+                activeCell.classList.add('bg-indigo-600/40', 'border-indigo-500', 'text-white');
             }
 
             return result;
@@ -909,50 +759,45 @@
             const studentId = studentIdInput.value.trim() || "ANONYMOUS-00";
             document.getElementById('resStudentIdBadge').innerText = `ID: ${studentId}`;
 
-            scanLaserOverlay.classList.remove('hidden');
-            
-            setTimeout(() => {
-                scanLaserOverlay.classList.add('hidden');
-                idleStateBox.classList.add('hidden');
-                resultBox.classList.remove('hidden');
+            idleStateBox.classList.add('hidden');
+            resultBox.classList.remove('hidden');
 
-                const xPercent = 50 - (x / 3) * 35;
-                const yPercent = 50 - (y / 3) * 35;
-                const miniRadarDot = document.getElementById('miniRadarDot');
-                miniRadarDot.style.left = `${xPercent}%`;
-                miniRadarDot.style.top = `${yPercent}%`;
+            const xPercent = 50 - (x / 3) * 35;
+            const yPercent = 50 - (y / 3) * 35;
+            const miniRadarDot = document.getElementById('miniRadarDot');
+            miniRadarDot.style.left = `${xPercent}%`;
+            miniRadarDot.style.top = `${yPercent}%`;
 
-                const res = evaluateDISC(x, y);
-                document.getElementById('resGridNum').innerText = res.gridNum;
-                document.getElementById('resAnimal').innerText = res.animal;
-                document.getElementById('resCoords').innerText = `Y: ${y >= 0 ? '+' + y : y}, X: ${x >= 0 ? '+' + x : x}`;
-                document.getElementById('resZoneDesc').innerText = res.zoneDesc;
-                document.getElementById('resTraits').innerText = res.traits;
-                document.getElementById('swotS').innerText = res.swot.s;
-                document.getElementById('swotW').innerText = res.swot.w;
-                document.getElementById('swotO').innerText = res.swot.o;
-                document.getElementById('swotT').innerText = res.swot.t;
-                document.getElementById('resAdvice').innerText = res.advice;
-            }, 600);
+            const res = evaluateDISC(x, y);
+            document.getElementById('resGridNum').innerText = res.gridNum;
+            document.getElementById('resAnimal').innerText = res.animal;
+            document.getElementById('resCoords').innerText = `Y: ${y >= 0 ? '+' + y : y}, X: ${x >= 0 ? '+' + x : x}`;
+            document.getElementById('resZoneDesc').innerText = res.zoneDesc;
+            document.getElementById('resTraits').innerText = res.traits;
+            document.getElementById('swotS').innerText = res.swot.s;
+            document.getElementById('swotW').innerText = res.swot.w;
+            document.getElementById('swotO').innerText = res.swot.o;
+            document.getElementById('swotT').innerText = res.swot.t;
+            document.getElementById('resAdvice').innerText = res.advice;
         }
 
         function downloadReportCard() {
             downloadBtn.style.display = 'none';
 
             html2canvas(resultBox, {
-                backgroundColor: '#070b19',
+                backgroundColor: '#0f172a',
                 scale: 2,
                 useCORS: true
             }).then(canvas => {
-                downloadBtn.style.display = 'flex';
+                downloadBtn.style.display = 'inline-flex';
 
                 const link = document.createElement('a');
                 const studentId = studentIdInput.value.trim() || "ANONYMOUS";
-                link.download = `DISC-Neural-Report-${studentId}.png`;
+                link.download = `DISC-Report-${studentId}.png`;
                 link.href = canvas.toDataURL('image/png');
                 link.click();
             }).catch(err => {
-                downloadBtn.style.display = 'flex';
+                downloadBtn.style.display = 'inline-flex';
                 console.error("Image export failed:", err);
             });
         }
